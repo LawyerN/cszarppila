@@ -8,7 +8,7 @@ namespace FootballScoreApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ApiAuth] // <-- Nasz filtr zabezpieczający całe API
+    [ApiAuth]
     public class TeamsApiController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -64,7 +64,6 @@ namespace FootballScoreApp.Controllers.Api
             var team = await _context.Teams.FindAsync(id);
             if (team == null) return NotFound();
 
-            // Aktualizujemy tylko bezpieczne pola (ochrona przed over-posting)
             team.Name = teamDTO.Name;
             team.ShortName = teamDTO.ShortName;
             team.Founded = teamDTO.Founded;
@@ -96,7 +95,6 @@ namespace FootballScoreApp.Controllers.Api
             return NoContent();
         }
 
-        // Mapowanie encji na bezpieczne DTO
         private static TeamDTO ItemToDTO(Team team) => new TeamDTO
         {
             Id = team.Id,

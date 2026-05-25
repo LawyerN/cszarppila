@@ -17,7 +17,6 @@ namespace FootballScoreApp.Services
 
             Console.WriteLine("Seeding database with La Liga data...");
 
-            // Admin user
             var adminUser = new User
             {
                 Username = adminUsername,
@@ -31,7 +30,6 @@ namespace FootballScoreApp.Services
 
             context.Users.Add(adminUser);
 
-            // ------------------- Stadiums -------------------
             var stadiums = new[]
             {
                 new Stadium { Name = "Spotify Camp Nou", City = "Barcelona", Capacity = 99354 },
@@ -58,7 +56,6 @@ namespace FootballScoreApp.Services
             context.Stadiums.AddRange(stadiums);
             context.SaveChanges();
 
-            // ------------------- Teams -------------------
             var barcelona = new Team { Name = "FC Barcelona", ShortName = "BAR", Founded = 1899, StadiumId = stadiums[0].Id };
             var realMadrid = new Team { Name = "Real Madrid CF", ShortName = "RMA", Founded = 1902, StadiumId = stadiums[1].Id };
             var atleticoMadrid = new Team { Name = "Atlético Madrid", ShortName = "ATM", Founded = 1903, StadiumId = stadiums[2].Id };
@@ -84,7 +81,6 @@ namespace FootballScoreApp.Services
             context.Teams.AddRange(teams);
             context.SaveChanges();
 
-            // ------------------- Referees -------------------
             var referees = new[]
             {
                 new Referee { FirstName = "José María", LastName = "Sánchez Martínez", Nationality = "Spain" },
@@ -96,7 +92,6 @@ namespace FootballScoreApp.Services
             context.Referees.AddRange(referees);
             context.SaveChanges();
 
-            // ------------------- Players (6 per team) -------------------
             var players = new[]
             {
                 // Barcelona
@@ -244,7 +239,6 @@ namespace FootballScoreApp.Services
             context.Players.AddRange(players);
             context.SaveChanges();
 
-            // ------------------- Matches -------------------
             // El Clásico (completed)
             var match1 = new Match
             {
@@ -393,7 +387,6 @@ namespace FootballScoreApp.Services
             context.Matches.AddRange(match1, match2, match3, match4, match5, match6, match7, match8, match9, match10, match11, match12);
             context.SaveChanges();
 
-            // ------------------- Player Stats -------------------
             var lewandowski = context.Players.First(p => p.LastName == "Lewandowski");
             var bellingham = context.Players.First(p => p.LastName == "Bellingham");
             var vinicius = context.Players.First(p => p.LastName == "Júnior");

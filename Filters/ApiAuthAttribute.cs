@@ -20,10 +20,8 @@ namespace FootballScoreApp.Filters
             var username = usernameValues.FirstOrDefault();
             var token = tokenValues.FirstOrDefault();
 
-            // 2. Pobieramy DbContext za pomocą Service Locator (Wstrzykiwanie zależności w filtrach)
             var dbContext = context.HttpContext.RequestServices.GetRequiredService<AppDbContext>();
 
-            // 3. Sprawdzamy czy użytkownik z takim tokenem istnieje
             var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && u.ApiToken == token);
 
             if (user == null)

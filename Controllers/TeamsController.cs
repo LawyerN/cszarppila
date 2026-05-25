@@ -5,7 +5,7 @@ using FootballScoreApp.Models;
 
 namespace FootballScoreApp.Controllers
 {
-    [Authorize] // Zwykły użytkownik może wyświetlać listę
+    [Authorize]
     public class TeamsController : Controller
     {
         private readonly AppDbContext _context;
@@ -21,7 +21,7 @@ namespace FootballScoreApp.Controllers
             return View(teams);
         }
 
-        [Authorize(Roles = "Admin")] // Tylko Admin może dodawać
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewBag.Stadiums = _context.Stadiums.ToList();

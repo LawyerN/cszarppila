@@ -22,7 +22,6 @@ namespace FootballScoreApp.Controllers
             return View();
         }
 
-        // --- STADIONY ---
         [Authorize(Roles = "Admin")]
         public IActionResult CreateStadium() => View();
 
@@ -52,7 +51,6 @@ namespace FootballScoreApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // --- SĘDZIOWIE ---
         [Authorize(Roles = "Admin")]
         public IActionResult CreateReferee() => View();
 

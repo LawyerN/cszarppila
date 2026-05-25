@@ -23,6 +23,7 @@
             @{ int index = 1; }
             @foreach (var item in Model)
             {
+                @if (item.StadiumName == null) continue; 
                 double average = item.MatchesCount > 0 ? Math.Round((double)item.TotalGoals / item.MatchesCount, 2) : 0;
                 <tr class="hover:bg-gray-750 transition-colors">
                     <td class="px-6 py-4 text-center font-bold text-gray-500">@(index++)</td>

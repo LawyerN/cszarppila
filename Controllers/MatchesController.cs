@@ -60,7 +60,5 @@ namespace FootballScoreApp.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
-        // (Miejsce na metody Create i Edit, które można dodać później)
     }
 }
