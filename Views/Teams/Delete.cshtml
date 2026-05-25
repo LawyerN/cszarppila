@@ -4,22 +4,35 @@
     ViewData["Title"] = "Usuń zespół";
 }
 
-<div class="alert alert-danger">
-    <h3>Czy na pewno chcesz usunąć ten klub z systemu?</h3>
-    <p>Operacja usunie również wszystkich przypisanych do niego zawodników (Kaskadowe usuwanie).</p>
-</div>
+@if (User.IsInRole("Admin")) 
+{
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-red-400">Usuwanie zespołu</h1>
+    </div>
 
-<div>
-    <dl class="row">
-        <dt class="col-sm-2">Nazwa:</dt>
-        <dd class="col-sm-10">@Model.Name</dd>
-        <dt class="col-sm-2">Skrót:</dt>
-        <dd class="col-sm-10">@Model.ShortName</dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Potwierdź usunięcie" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
-    </form>
-</div>
+    <div class="bg-gray-800 rounded-lg shadow-md p-6 max-w-lg border border-red-900">
+        <div class="bg-red-950 border border-red-800 text-red-200 rounded-md p-4 mb-6">
+            <h3 class="font-semibold text-lg mb-1">Czy na pewno chcesz usunąć klub @Model.Name z systemu?</h3>
+            <p class="text-sm text-red-300">Operacja usunie również wszystkich przypisanych do niego zawodników (usuwanie kaskadowe). Tej operacji nie da się cofnąć.</p>
+        </div>
+
+        <div class="mb-6 bg-gray-700 p-4 rounded-md">
+            <dl class="grid grid-cols-3 gap-y-2 text-sm">
+                <dt class="text-gray-400 font-medium">Nazwa:</dt>
+                <dd class="col-span-2 text-white font-semibold">@Model.Name</dd>
+                
+                <dt class="text-gray-400 font-medium">Skrót:</dt>
+                <dd class="col-span-2 text-white font-semibold">@Model.ShortName</dd>
+            </dl>
+        </div>
+        
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="flex items-center justify-between border-t border-gray-700 pt-4 mt-2">
+                <input type="submit" value="Potwierdź usunięcie" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded shadow cursor-pointer transition" />
+                <a asp-action="Index" class="text-blue-400 hover:text-blue-300 hover:underline transition text-sm">Anuluj</a>
+            </div>
+        </form>
+    </div>
+}

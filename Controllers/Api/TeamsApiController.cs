@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FootballScoreApp.Models;
 using FootballScoreApp.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FootballScoreApp.Controllers.Api
 {

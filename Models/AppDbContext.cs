@@ -50,6 +50,12 @@ namespace FootballScoreApp.Models
                 .WithMany()
                 .HasForeignKey(m => m.RefereeId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Match>()
+                .HasOne(m => m.Stadium)
+                .WithMany()
+                .HasForeignKey(m => m.StadiumId)
+                .OnDelete(DeleteBehavior.SetNull);
             
             modelBuilder.Entity<PlayerStats>()
                 .HasOne(ps => ps.Player)

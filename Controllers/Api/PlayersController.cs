@@ -15,29 +15,35 @@ namespace FootballScoreApp.Controllers
             _context = context;
         }
 
-        // GET: Players/Create
+        public async Task<IActionResult> Index()
+        {
+            var players = await _context.Players.Include(p => p.Team).ToListAsync();
+            return View(players);
+        }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewBag.Teams = _context.Teams.ToList();
             return View();
         }
 
-        // POST: Players/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Player player)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(player);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Home"); // Wraca na Dashboard
+                return RedirectToAction(nameof(Index));
             }
             ViewBag.Teams = _context.Teams.ToList();
             return View(player);
         }
 
-        // GET: Players/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -48,36 +54,34 @@ namespace FootballScoreApp.Controllers
             return View(player);
         }
 
-        // POST: Players/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, Player player)
         {
             if (id != player.Id) return NotFound();
-
             if (ModelState.IsValid)
             {
                 _context.Update(player);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(Index));
             }
             ViewBag.Teams = _context.Teams.ToList();
             return View(player);
         }
 
-        // GET: Players/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
             var player = await _context.Players.Include(p => p.Team).FirstOrDefaultAsync(m => m.Id == id);
             if (player == null) return NotFound();
-
             return View(player);
         }
 
-        // POST: Players/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var player = await _context.Players.FindAsync(id);
@@ -86,7 +90,7 @@ namespace FootballScoreApp.Controllers
                 _context.Players.Remove(player);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

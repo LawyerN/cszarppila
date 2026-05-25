@@ -1,26 +1,41 @@
 @model FootballScoreApp.Models.Stadium
 
-<h2>Dodaj nowy obiekt (Stadion)</h2>
-<hr />
-<div class="row">
-    <div class="col-md-6">
+@{
+    ViewData["Title"] = "Dodaj Stadion";
+}
+
+@if (User.IsInRole("Admin")) 
+{
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-400">Dodaj nowy obiekt (Stadion)</h1>
+    </div>
+
+    <div class="bg-gray-800 rounded-lg shadow-md p-6 max-w-lg">
         <form asp-action="CreateStadium" method="post">
-            <div class="form-group mb-3">
-                <label class="control-label">Nazwa stadionu</label>
-                <input asp-for="Name" class="form-control" required />
+            <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+
+            <div class="mb-4">
+                <label asp-for="Name" class="block text-gray-300 mb-2 font-medium">Nazwa stadionu</label>
+                <input asp-for="Name" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required />
+                <span asp-validation-for="Name" class="text-red-400 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Miasto</label>
-                <input asp-for="City" class="form-control" required />
+
+            <div class="mb-4">
+                <label asp-for="City" class="block text-gray-300 mb-2 font-medium">Miasto</label>
+                <input asp-for="City" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required />
+                <span asp-validation-for="City" class="text-red-400 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Pojemność trybun</label>
-                <input asp-for="Capacity" type="number" class="form-control" required />
+
+            <div class="mb-6">
+                <label asp-for="Capacity" class="block text-gray-300 mb-2 font-medium">Pojemność trybun</label>
+                <input asp-for="Capacity" type="number" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required />
+                <span asp-validation-for="Capacity" class="text-red-400 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Zapisz stadion" class="btn btn-success" />
-                <a href="/Home/Index" class="btn btn-secondary">Powrót</a>
+
+            <div class="flex items-center justify-between border-t border-gray-700 pt-4 mt-2">
+                <input type="submit" value="Zapisz stadion" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded shadow cursor-pointer transition" />
+                <a href="/Infrastructure" class="text-blue-400 hover:text-blue-300 hover:underline transition text-sm">Powrót</a>
             </div>
         </form>
     </div>
-</div>
+}

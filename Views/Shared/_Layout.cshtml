@@ -1,50 +1,127 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FootballScoreApp</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FootballScoreApp.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FootballScoreApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+<body class="bg-gray-900 text-gray-200 font-sans antialiased flex flex-col min-h-screen">
+
+    <nav class="bg-gray-800 border-b border-gray-700 shadow-md">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center space-x-6">
+                    <a asp-controller="Home" asp-action="Index" 
+                       class="text-blue-400 font-bold text-xl tracking-tight hover:text-blue-300 transition">
+                        FootballScoreApp
+                    </a>
+                    <div class="hidden md:flex space-x-4">
+                        <a asp-controller="Home" asp-action="Index" 
+                           class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">
+                            Home
+                        </a>
+                        <a asp-controller="Home" asp-action="Privacy" 
+                           class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition">
+                            Privacy
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <span class="text-sm text-gray-300">
+                            Witaj, <span class="font-semibold text-blue-400">@User.Identity.Name</span>!
+                        </span>
+                        <a asp-controller="Account" asp-action="Logout" 
+                           class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md text-sm font-medium transition shadow">
+                            Wyloguj
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" 
+                           class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-1 rounded-md text-sm font-medium transition">
+                            Zaloguj
+                        </a>
+                        <a asp-controller="Account" asp-action="Register" 
+                           class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-md text-sm font-medium transition shadow">
+                            Rejestracja
+                        </a>
+                    }
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" type="button" 
+                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden hidden bg-gray-800 border-t border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a asp-controller="Home" asp-action="Index" 
+                   class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">
+                    Home
+                </a>
+                <a asp-controller="Home" asp-action="Privacy" 
+                   class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">
+                    Privacy
+                </a>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="pt-2 pb-1">
+                        <span class="block px-3 py-1 text-sm text-gray-400">Witaj, @User.Identity.Name</span>
+                    </div>
+                    <a asp-controller="Account" asp-action="Logout" 
+                       class="block text-red-400 hover:bg-gray-700 hover:text-red-300 px-3 py-2 rounded-md text-base font-medium">
+                        Wyloguj
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" 
+                       class="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">
+                        Zaloguj
+                    </a>
+                    <a asp-controller="Account" asp-action="Register" 
+                       class="block bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-md text-base font-medium text-center">
+                        Rejestracja
+                    </a>
+                }
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-grow">
+        <div class="max-w mx-auto px-4 sm:px-6 lg:px-16 py-8">
+            <main>
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - FootballScoreApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="bg-gray-800 border-t border-gray-700 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-400 text-sm">
+            &copy; 2026 - FootballScoreApp - <a asp-controller="Home" asp-action="Privacy" class="text-blue-400 hover:text-blue-300">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

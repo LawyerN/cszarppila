@@ -22,4 +22,10 @@
     <Folder Include="Data\" />
   </ItemGroup>
 
+  <Target Name="TailwindBuild" BeforeTargets="Build">
+    <Exec Command="npm install" />
+    
+    <Exec Command="npm run build:css" />
+  </Target>
+
 </Project>

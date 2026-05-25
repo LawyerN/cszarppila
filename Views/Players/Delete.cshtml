@@ -1,12 +1,28 @@
 @model FootballScoreApp.Models.Player
 
-<div class="alert alert-danger m-3">
-    <h3>Czy na pewno chcesz usunąć zawodnika @Model.FullName?</h3>
-    <p>Tej operacji nie da się cofnąć.</p>
-</div>
+@{
+    ViewData["Title"] = "Usuń Zawodnika";
+}
 
-<form asp-controller="Players" asp-action="Delete">
-    <input type="hidden" asp-for="Id" />
-    <input type="submit" value="Potwierdź usunięcie" class="btn btn-danger" />
-    <a href="/Home/Index" class="btn btn-secondary">Anuluj</a>
-</form>
+@if (User.IsInRole("Admin"))
+{
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-red-400">Usuwanie zawodnika</h1>
+    </div>
+
+    <div class="bg-gray-800 rounded-lg shadow-md p-6 max-w-lg border border-red-900">
+        <div class="bg-red-950 border border-red-800 text-red-200 rounded-md p-4 mb-6">
+            <h3 class="font-semibold text-lg mb-1">Czy na pewno chcesz usunąć zawodnika @Model.FullName?</h3>
+            <p class="text-sm text-red-300">Tej operacji nie da się cofnąć. Zawodnik zostanie trwale usunięty z bazy danych.</p>
+        </div>
+
+        <form asp-controller="Players" asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="flex items-center justify-between mt-2">
+                <input type="submit" value="Potwierdź usunięcie" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded shadow cursor-pointer transition" />
+                <a href="/Players/Index" class="text-blue-400 hover:text-blue-300 hover:underline transition text-sm">Anuluj</a>
+            </div>
+        </form>
+    </div>
+}

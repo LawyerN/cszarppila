@@ -2,33 +2,40 @@
     ViewData["Title"] = "Logowanie";
 }
 
-<h2>Logowanie do systemu</h2>
-<hr />
+<div class="flex justify-center items-center min-h-[70vh]">
+    <div class="max-w-md w-full bg-gray-800 rounded-lg shadow-xl p-8 border border-gray-700">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-blue-400">Witaj ponownie!</h2>
+            <p class="text-gray-400 mt-2 text-sm">Zaloguj się do swojego konta, aby zarządzać systemem.</p>
+        </div>
 
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="Login" method="post">
             @* Wyświetlanie błędu logowania *@
             @if (ViewBag.Error != null)
             {
-                <div class="alert alert-danger">
+                <div class="bg-red-950 border border-red-800 text-red-200 px-4 py-3 rounded-md mb-6 text-sm text-center shadow-inner">
                     @ViewBag.Error
                 </div>
             }
 
-            <div class="form-group mb-3">
-                <label class="control-label">Nazwa użytkownika</label>
-                <input type="text" name="username" class="form-control" required />
+            <div class="mb-5">
+                <label class="block text-gray-300 mb-2 font-medium text-sm">Nazwa użytkownika</label>
+                <input type="text" name="username" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required placeholder="Wpisz login..." />
             </div>
             
-            <div class="form-group mb-3">
-                <label class="control-label">Hasło</label>
-                <input type="password" name="password" class="form-control" required />
+            <div class="mb-6">
+                <label class="block text-gray-300 mb-2 font-medium text-sm">Hasło</label>
+                <input type="password" name="password" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required placeholder="••••••••" />
             </div>
             
-            <div class="form-group">
-                <input type="submit" value="Zaloguj" class="btn btn-primary" />
+            <div>
+                <input type="submit" value="Zaloguj się" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-md shadow cursor-pointer transition duration-200" />
             </div>
         </form>
+
+        <div class="text-center mt-6 text-sm text-gray-400 border-t border-gray-700 pt-5">
+            Nie masz jeszcze konta? 
+            <a asp-controller="Account" asp-action="Register" class="text-blue-400 hover:text-blue-300 hover:underline transition font-medium">Zarejestruj się</a>
+        </div>
     </div>
 </div>

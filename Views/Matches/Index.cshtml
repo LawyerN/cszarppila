@@ -1,0 +1,88 @@
+@model IEnumerable<FootballScoreApp.Models.Match>
+@{
+    ViewData["Title"] = "Terminarz i Wyniki";
+}
+
+<div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div>
+        <h1 class="text-3xl font-bold text-blue-400">Rozpiska Meczów</h1>
+        <p class="text-gray-400 text-sm mt-1">Pełny terminarz oraz wyniki wszystkich spotkań La Liga</p>
+    </div>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="bg-blue-800 hover:bg-blue-500 text-white px-3 py-2 rounded-md text-sm transition">
+            Zaplanuj mecz
+        </a>
+    }
+</div>
+
+<div class="bg-gray-800 rounded-lg shadow-md p-6">
+    @if (Model != null && Model.Any())
+    {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach (var match in Model)
+            {
+                <div class="bg-gray-700 rounded-lg p-5 hover:shadow-lg transition-shadow border border-gray-600 flex flex-col h-full relative">
+                    
+                    <div class="w-full flex flex-row justify-center">
+                        @if (match.IsCompleted)
+                        {
+                            <span class="bg-green-900 text-green-300 text-[10px] font-bold uppercase px-2 py-1 rounded border border-green-700">Zakończony</span>
+                        }
+                        else
+                        {
+                            <span class="bg-yellow-900 text-yellow-300 text-[10px] font-bold uppercase px-2 py-1 rounded border border-yellow-700">Przyszły</span>
+                        }
+                    </div>
+
+                    <div class="flex justify-between items-center mb-4 mt-4">
+                        <div class="flex-1 text-center">
+                            <span class="font-bold text-white text-lg">@(match.HomeTeam?.ShortName ?? match.HomeTeam?.Name)</span>
+                        </div>
+                        <div class="mx-3 px-3 py-2 bg-gray-800 rounded-md border border-gray-600 min-w-[80px] text-center">
+                            @if (match.IsCompleted)
+                            {
+                                <span class="text-xl font-bold text-blue-400 tracking-wider">@match.HomeScore : @match.AwayScore</span>
+                            }
+                            else
+                            {
+                                <span class="text-gray-400 font-medium">VS</span>
+                            }
+                        </div>
+                        <div class="flex-1 text-center">
+                            <span class="font-bold text-white text-lg">@(match.AwayTeam?.ShortName ?? match.AwayTeam?.Name)</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto border-t border-gray-600 pt-3 text-sm text-gray-400 space-y-1">
+                        <div class="flex items-between justify-between gap-2">
+                            <span>Data i czas:</span>
+                            <span>@match.MatchDate.ToString("dd.MM.yyyy HH:mm")</span>
+                        </div>
+                        <div class="flex items-between justify-between gap-2">
+                            <span>Stadion:</span>
+                            <span class="truncate">@(match.Stadium?.Name ?? "Brak informacji")</span>
+                        </div>
+                        @if (match.Referee != null)
+                        {
+                            <div class="flex items-between justify-between gap-2">
+                                <span>Sędzia:</span>
+                                <span class="truncate">@match.Referee.FirstName @match.Referee.LastName</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-8">
+            <p class="text-gray-400 text-lg">Brak meczów do wyświetlenia w terminarzu.</p>
+        </div>
+    }
+</div>
+
+<div class="mt-6">
+    <a href="/" class="text-blue-400 hover:text-blue-300 hover:underline text-sm transition">← Powrót do pulpitu</a>
+</div>

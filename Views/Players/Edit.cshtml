@@ -1,43 +1,61 @@
 @model FootballScoreApp.Models.Player
 
-<h2>Edytuj dane zawodnika: @Model.FullName</h2>
-<hr />
-<div class="row">
-    <div class="col-md-6">
+@{
+    ViewData["Title"] = "Edytuj Zawodnika";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-400">Edytuj dane zawodnika: @Model.FullName</h1>
+    </div>
+
+    <div class="bg-gray-800 rounded-lg shadow-md p-6 max-w-lg">
         <form asp-controller="Players" asp-action="Edit" method="post">
             <input type="hidden" asp-for="Id" />
-            <div class="form-group mb-3">
-                <label class="control-label">Imię</label>
-                <input asp-for="FirstName" class="form-control" required />
+            <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+
+            <div class="mb-4">
+                <label asp-for="FirstName" class="block text-gray-300 mb-2 font-medium">Imię</label>
+                <input asp-for="FirstName" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required />
+                <span asp-validation-for="FirstName" class="text-red-400 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Nazwisko</label>
-                <input asp-for="LastName" class="form-control" required />
+
+            <div class="mb-4">
+                <label asp-for="LastName" class="block text-gray-300 mb-2 font-medium">Nazwisko</label>
+                <input asp-for="LastName" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required />
+                <span asp-validation-for="LastName" class="text-red-400 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Pozycja na boisku</label>
-                <select asp-for="Position" class="form-control" required>
-                    <option value="">-- Wybierz pozycję --</option>
-                    <option value="Goalkeeper">Bramkarz (Goalkeeper)</option>
-                    <option value="Defender">Obrońca (Defender)</option>
-                    <option value="Midfielder">Pomocnik (Midfielder)</option>
-                    <option value="Forward">Napastnik (Forward)</option>
+
+            <div class="mb-4">
+                <label asp-for="Position" class="block text-gray-300 mb-2 font-medium">Pozycja na boisku</label>
+                <select asp-for="Position" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required>
+                    <option value="" class="bg-gray-800">-- Wybierz pozycję --</option>
+                    <option value="Goalkeeper" class="bg-gray-800">Bramkarz (Goalkeeper)</option>
+                    <option value="Defender" class="bg-gray-800">Obrońca (Defender)</option>
+                    <option value="Midfielder" class="bg-gray-800">Pomocnik (Midfielder)</option>
+                    <option value="Forward" class="bg-gray-800">Napastnik (Forward)</option>
                 </select>
-                <span asp-validation-for="Position" class="text-danger"></span>
+                <span asp-validation-for="Position" class="text-red-400 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Numer na koszulce</label>
-                <input asp-for="JerseyNumber" type="number" class="form-control" />
+
+            <div class="mb-4">
+                <label asp-for="JerseyNumber" class="block text-gray-300 mb-2 font-medium">Numer na koszulce</label>
+                <input asp-for="JerseyNumber" type="number" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" />
+                <span asp-validation-for="JerseyNumber" class="text-red-400 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Klub</label>
-                <select asp-for="TeamId" class="form-control" asp-items="@(new SelectList(ViewBag.Teams, "Id", "Name"))" required>
+
+            <div class="mb-6">
+                <label asp-for="TeamId" class="block text-gray-300 mb-2 font-medium">Klub</label>
+                <select asp-for="TeamId" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" asp-items="@(new SelectList(ViewBag.Teams, "Id", "Name"))" required>
                 </select>
+                <span asp-validation-for="TeamId" class="text-red-400 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Zapisz zmiany" class="btn btn-primary" />
-                <a href="/Home/Index" class="btn btn-secondary">Anuluj</a>
+
+            <div class="flex items-center justify-between border-t border-gray-700 pt-4 mt-2">
+                <input type="submit" value="Zapisz zmiany" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded shadow cursor-pointer transition" />
+                <a href="/Players/Index" class="text-blue-400 hover:text-blue-300 hover:underline transition text-sm">Anuluj</a>
             </div>
         </form>
     </div>
-</div>
+}

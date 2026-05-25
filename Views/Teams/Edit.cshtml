@@ -4,48 +4,50 @@
     ViewData["Title"] = "Edytuj Klub";
 }
 
-<h2>Edycja klubu: @Model.Name</h2>
-<hr />
-<div class="row">
-    <div class="col-md-6">
+@if (User.IsInRole("Admin")) 
+{
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-400">Edycja klubu: @Model.Name</h1>
+    </div>
+
+    <div class="bg-gray-800 rounded-lg shadow-md p-6 max-w-lg">
         <form asp-action="Edit" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+            <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
             <input type="hidden" asp-for="Id" />
 
-            <div class="form-group mb-3">
-                <label asp-for="Name" class="control-label">Nazwa klubu</label>
-                <input asp-for="Name" class="form-control" required />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="mb-4">
+                <label asp-for="Name" class="block text-gray-300 mb-2 font-medium">Nazwa klubu</label>
+                <input asp-for="Name" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required />
+                <span asp-validation-for="Name" class="text-red-400 text-sm mt-1 block"></span>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="ShortName" class="control-label">Skrót (np. BAR, RMA)</label>
-                <input asp-for="ShortName" class="form-control" required />
-                <span asp-validation-for="ShortName" class="text-danger"></span>
+            <div class="mb-4">
+                <label asp-for="ShortName" class="block text-gray-300 mb-2 font-medium">Skrót (np. BAR, RMA)</label>
+                <input asp-for="ShortName" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" required />
+                <span asp-validation-for="ShortName" class="text-red-400 text-sm mt-1 block"></span>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Founded" class="control-label">Rok założenia</label>
-                <input asp-for="Founded" type="number" class="form-control" />
-                <span asp-validation-for="Founded" class="text-danger"></span>
+            <div class="mb-4">
+                <label asp-for="Founded" class="block text-gray-300 mb-2 font-medium">Rok założenia</label>
+                <input asp-for="Founded" type="number" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" />
+                <span asp-validation-for="Founded" class="text-red-400 text-sm mt-1 block"></span>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="StadiumId" class="control-label">Stadion domowy</label>
-                <select asp-for="StadiumId" class="form-control" asp-items="@(new SelectList(ViewBag.Stadiums, "Id", "Name"))">
-                    <option value="">-- Wybierz stadion --</option>
+            <div class="mb-6">
+                <label asp-for="StadiumId" class="block text-gray-300 mb-2 font-medium">Stadion domowy</label>
+                <select asp-for="StadiumId" class="w-full bg-gray-700 border border-gray-600 rounded-md text-white px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition" asp-items="@(new SelectList(ViewBag.Stadiums, "Id", "Name"))">
+                    <option value="" class="bg-gray-800">-- Wybierz stadion --</option>
                 </select>
-                <span asp-validation-for="StadiumId" class="text-danger"></span>
+                <span asp-validation-for="StadiumId" class="text-red-400 text-sm mt-1 block"></span>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Zapisz zmiany" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+            <div class="flex items-center justify-between border-t border-gray-700 pt-4 mt-2">
+                <input type="submit" value="Zapisz zmiany" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded shadow cursor-pointer transition" />
+                <a asp-action="Index" class="text-blue-400 hover:text-blue-300 hover:underline transition text-sm">Anuluj</a>
             </div>
         </form>
     </div>
-</div>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

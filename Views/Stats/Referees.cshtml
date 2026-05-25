@@ -1,0 +1,36 @@
+@model IEnumerable<FootballScoreApp.Controllers.RefereeStatsViewModel>
+@{
+    ViewData["Title"] = "Aktywność Sędziów";
+}
+
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-blue-400">Aktywność Sędziów</h1>
+    <p class="text-gray-400 text-sm mt-1">Pełna lista arbitrów oraz liczba poprowadzonych przez nich spotkań ligowych</p>
+</div>
+
+<div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+    <table class="min-w-full text-left">
+        <thead class="bg-gray-700 text-gray-300">
+            <tr>
+                <th class="px-6 py-3 border-b border-gray-600 w-12 text-center">#</th>
+                <th class="px-6 py-3 border-b border-gray-600">Sędzia</th>
+                <th class="px-6 py-3 border-b border-gray-600 text-center">Liczba sędziowanych spotkań</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-200 divide-y divide-gray-700">
+            @{ int index = 1; }
+            @foreach (var item in Model)
+            {
+                <tr class="hover:bg-gray-750 transition-colors">
+                    <td class="px-6 py-4 text-center font-bold text-gray-500">@(index++)</td>
+                    <td class="px-6 py-4 font-semibold text-white">@item.Name</td>
+                    <td class="px-6 py-4 text-center font-bold text-blue-400 text-lg">@item.MatchesOfficiated</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-6">
+    <a href="/" class="text-blue-400 hover:text-blue-300 hover:underline text-sm transition">← Powrót do pulpitu</a>
+</div>
