@@ -16,15 +16,18 @@ namespace FootballScoreApp.Services
             if (context.Teams.Any()) return;
             
             Console.WriteLine("Seeding database with La Liga data...");
-            
+
             var adminUser = new User
             {
                 Username = adminUsername,
-                PasswordHash = PasswordHasher.HashPassword(adminPassword),
                 ApiToken = Guid.NewGuid().ToString("N"),
                 IsAdmin = true,
                 CreatedAt = DateTime.UtcNow
             };
+
+            var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<User>();
+            adminUser.PasswordHash = hasher.HashPassword(adminUser, adminPassword);
+
             context.Users.Add(adminUser);
             
             var campNou = new Stadium { Name = "Spotify Camp Nou", City = "Barcelona", Capacity = 99354 };

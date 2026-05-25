@@ -1,8 +1,198 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard La Liga";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid mt-3">
+    <div class="bg-dark text-white p-4 rounded shadow mb-4">
+        <h1 class="display-5">⚽ System Zarządzania Rozgrywkami La Liga</h1>
+        <p class="mb-0 text-info">Zintegrowany panel statystyk i dostępu do relacyjnej bazy danych SQLite</p>
+    </div>
+
+    <ul class="nav nav-pills nav-fill mb-4 shadow-sm p-2 bg-white rounded" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-stats-tab" data-bs-toggle="pill" data-bs-target="#pills-stats" type="button" role="tab">🏆 Statystyki i Zestawienia</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-teams-tab" data-bs-toggle="pill" data-bs-target="#pills-teams" type="button" role="tab">🛡️ Drużyny</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-players-tab" data-bs-toggle="pill" data-bs-target="#pills-players" type="button" role="tab">🏃 Zawodnicy</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-infrastructure-tab" data-bs-toggle="pill" data-bs-target="#pills-infrastructure" type="button" role="tab">🏟️ Stadiony i Sędziowie</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+        
+        <div class="tab-pane fade show active" id="pills-stats" role="tabpanel">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card border-primary mb-4 shadow-sm">
+                        <div class="card-header bg-primary text-white font-weight-bold">🔥 Najskuteczniejsi Strzelcy</div>
+                        <div class="card-body">
+                            @foreach (var s in ViewBag.TopScorers) {
+                                <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                                    <span><strong>@s.PlayerName</strong> <small class="text-muted">(@s.TeamName)</small></span>
+                                    <span class="badge bg-danger fs-6">@s.Goals ⚽</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-success mb-4 shadow-sm">
+                        <div class="card-header bg-success text-white font-weight-bold">🏟️ Gole na Stadionach</div>
+                        <div class="card-body">
+                            @foreach (var st in ViewBag.StadiumStats) {
+                                <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                                    <span><strong>@st.StadiumName</strong></span>
+                                    <span class="badge bg-secondary">@st.TotalGoals bramek</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-warning mb-4 shadow-sm">
+                        <div class="card-header bg-warning text-dark font-weight-bold">⚖️ Aktywność Sędziów</div>
+                        <div class="card-body">
+                            @foreach (var refStat in ViewBag.RefereeStats) {
+                                <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                                    <span><strong>@refStat.Name</strong></span>
+                                    <span class="badge bg-dark">@refStat.MatchesOfficiated spotkań</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="pills-teams" role="tabpanel">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <a href="/Teams/Create" class="btn btn-success">➕ Dodaj nową drużynę</a>
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Klub</th>
+                                <th>Stadion domowy</th>
+                                <th>Rok założenia</th>
+                                <th>Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var team in ViewBag.AllTeams) {
+                                <tr>
+                                    <td><strong>@team.Name</strong> (@team.ShortName)</td>
+                                    <td>@(team.Stadium?.Name ?? "Brak")</td>
+                                    <td>@team.Founded</td>
+                                    <td>
+                                        <a href="/Teams/Edit/@team.Id" class="btn btn-sm btn-outline-primary">Edytuj</a>
+                                        <a href="/Teams/Delete/@team.Id" class="btn btn-sm btn-outline-danger">Usuń</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="pills-players" role="tabpanel">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <a href="/Players/Create" class="btn btn-success">➕ Dodaj nowego zawodnika</a>
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Zawodnik</th>
+                                <th>Pozycja</th>
+                                <th>Aktualny klub</th>
+                                <th>Numer</th>
+                                <th>Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in ViewBag.AllPlayers) {
+                                <tr>
+                                    <td><strong>@p.FullName</strong></td>
+                                    <td>@p.Position</td>
+                                    <td>@p.Team?.Name</td>
+                                    <td><span class="badge bg-info text-dark">@p.JerseyNumber</span></td>
+                                    <td>
+                                        <a href="/Players/Edit/@p.Id" class="btn btn-sm btn-outline-primary">Edytuj</a>
+                                        <a href="/Players/Delete/@p.Id" class="btn btn-sm btn-outline-danger">Usuń</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="pills-infrastructure" role="tabpanel">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-4">
+                        <a href="/Infrastructure/CreateStadium" class="btn btn-outline-success me-2">➕ Dodaj nowy stadion</a>
+                        <a href="/Infrastructure/CreateReferee" class="btn btn-outline-warning">👤 Dodaj nowego sędziego</a>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h5>🏟️ Rejestr Stadionów</h5>
+                            <table class="table table-bordered table-sm">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Nazwa</th>
+                                        <th>Miasto</th>
+                                        <th>Pojemność</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var s in ViewBag.AllStadiums) {
+                                        <tr>
+                                            <td>@s.Name</td>
+                                            <td>@s.City</td>
+                                            <td>@s.Capacity.ToString("N0") miejsc</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-5">
+                            <h5>👤 Panel Sędziowski</h5>
+                            <table class="table table-bordered table-sm">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Imię i nazwisko</th>
+                                        <th>Kraj</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @if (ViewBag.AllReferees != null)
+                                {
+                                    @foreach (var r in ViewBag.AllReferees) {
+                                        <tr>
+                                            <td>@r.FullName</td>
+                                            <td>@r.Nationality</td>
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>

@@ -1,0 +1,26 @@
+@model FootballScoreApp.Referee
+
+<h2>Zarejestruj nowego sędziego</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="CreateReferee" method="post">
+            <div class="form-group mb-3">
+                <label class="control-label">Imię</label>
+                <input asp-for="FirstName" class="form-control" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Nazwisko</label>
+                <input asp-for="LastName" class="form-control" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Narodowość</label>
+                <input asp-for="Nationality" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz sędziego" class="btn btn-warning" />
+                <a href="/Home/Index" class="btn btn-secondary">Powrót</a>
+            </div>
+        </form>
+    </div>
+</div>

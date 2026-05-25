@@ -1,0 +1,43 @@
+@model FootballScoreApp.Models.Player
+
+<h2>Dodaj nowego zawodnika</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-controller="Players" asp-action="Create" method="post">
+            <div class="form-group mb-3">
+                <label class="control-label">Imię</label>
+                <input asp-for="FirstName" class="form-control" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Nazwisko</label>
+                <input asp-for="LastName" class="form-control" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Pozycja na boisku</label>
+                <select asp-for="Position" class="form-control" required>
+                    <option value="">-- Wybierz pozycję --</option>
+                    <option value="Goalkeeper">Bramkarz (Goalkeeper)</option>
+                    <option value="Defender">Obrońca (Defender)</option>
+                    <option value="Midfielder">Pomocnik (Midfielder)</option>
+                    <option value="Forward">Napastnik (Forward)</option>
+                </select>
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Numer na koszulce</label>
+                <input asp-for="JerseyNumber" type="number" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Klub</label>
+                <select asp-for="TeamId" class="form-control" asp-items="@(new SelectList(ViewBag.Teams, "Id", "Name"))" required>
+                    <option value="">-- Wybierz klub --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz zawodnika" class="btn btn-success" />
+                <a href="/Home/Index" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
+    </div>
+</div>

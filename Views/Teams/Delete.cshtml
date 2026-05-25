@@ -1,0 +1,25 @@
+@model FootballScoreApp.Models.Team
+
+@{
+    ViewData["Title"] = "Usuń zespół";
+}
+
+<div class="alert alert-danger">
+    <h3>Czy na pewno chcesz usunąć ten klub z systemu?</h3>
+    <p>Operacja usunie również wszystkich przypisanych do niego zawodników (Kaskadowe usuwanie).</p>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Nazwa:</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+        <dt class="col-sm-2">Skrót:</dt>
+        <dd class="col-sm-10">@Model.ShortName</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Potwierdź usunięcie" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+    </form>
+</div>

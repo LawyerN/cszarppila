@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using FootballScoreApp.Models;
 using FootballScoreApp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,13 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; 
+        options.AccessDeniedPath = "/Account/AccessDenied"; 
+    });
 
 var app = builder.Build();
 
@@ -34,6 +42,7 @@ app.UseRouting();
 
 app.UseSession();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -50,9 +59,13 @@ using (var scope = app.Services.CreateScope())
         
         context.Database.EnsureCreated();
         
+        context.Database.EnsureCreated();
+        
         var adminUsername = config["AppSettings:AdminUsername"] ?? "admin";
         var adminPassword = config["AppSettings:AdminPassword"] ?? "Admin@123!";
         DbSeeder.Initialize(services, adminUsername, adminPassword);
+
+        Console.WriteLine($"\n>>> TWORZĘ TOKEN DLA API: {context.Users.FirstOrDefault(u => u.Username == adminUsername)?.ApiToken}\n");
     }
     catch (Exception ex)
     {
