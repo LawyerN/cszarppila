@@ -1,8 +1,8 @@
 # Aplikacja webowa do wyświetlania oraz zarządzania danymi dotyczącymi rozgrywek LaLiga
 
 ### Autorzy
-- Kacper Filip
-- Bartosz Gdowski
+- Kacper Filip: [kacperfilip@student.agh.edu.pl](mailto:kacperfilip@student.agh.edu.pl)
+- Bartosz Gdowski: [bgdowski@student.agh.edu.pl](mailto:bgdowski@student.agh.edu.pl)
 
 ### Do czego służy aplikacja
 Aplikacja służy od wyświetlania (normalni użytkownicy) oraz zarządzania (admin) danymi rozgrywek LaLiga. Dane te są dostępne wyłącznie dla zalogowanych użytkowników. Pozwala ona na dostęp do danych:
